@@ -28,8 +28,11 @@ Candy.Game.prototype = {
 		this.add.button(Candy.GAME_WIDTH-96-10, 5, 'button-pause', this.managePause, this);
 		// izrada igrača
 		this._player = this.add.sprite(5, 785, 'player-idle');
+
 		// dodavanje animacije na igrača
 		this._player.animations.add('idle', [0,1,2,3,4,5,6,7], 10, true);
+		this._player.animations.add('attackMove',[0,1,2,3,4,5,6,7], 10, true);
+		this._player.animations.add('deadMove',[0,1,2,3,4,5,6,7], 10, true);
 		// animacija igrača
 		this._player.animations.play('idle');
 		// postavljanje fonta
@@ -67,7 +70,7 @@ Candy.Game.prototype = {
 		// update timer every frame
 		this._spawnCandyTimer += this.time.elapsed;
 		// if spawn timer reach one second (1000 miliseconds)
-		if(this._spawnCandyTimer > 1000) {
+		if(this._spawnCandyTimer > 800) {
 			// reset it
 			this._spawnCandyTimer = 0;
 			// and spawn new candy
@@ -81,6 +84,7 @@ Candy.Game.prototype = {
 		// ako je igrač umro
 		if(!Candy._health) {
 			// show the game over message
+
 			var gameover = this.add.sprite((Candy.GAME_WIDTH-594)/2, (Candy.GAME_HEIGHT-271)/2, 'game-over');
 	//		var mainMenu = this.add.button(Candy.GAME_WIDTH-401-10, Candy.GAME_HEIGHT-143-10, 'button-start', mainMenuBack, this, 1, 0, 2);
 			// pause the game
@@ -95,6 +99,7 @@ Candy.Game.prototype = {
 			}, this);
 		}
 	}
+
 };
 
 Candy.item = {
@@ -104,7 +109,7 @@ Candy.item = {
 		// definicija offseta za svaki padajući element
 		var dropOffset = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 		// random generirani padajući elelemt
-		var candyType = Math.floor(Math.random()*50);
+		var candyType = Math.floor(Math.random()*20);
 		// kreiranje novog padajućeg elementa
 		var candy = game.add.sprite(dropPos, dropOffset[candyType], 'candy');
 		// add new animation frame
@@ -128,6 +133,7 @@ Candy.item = {
 		// add candy to the group
 		game._candyGroup.add(candy);
 	},
+
 	clickCandy: function(candy){
 		// uništavanje elementa na klik
 		candy.kill();
@@ -135,6 +141,15 @@ Candy.item = {
 		Candy._score += 1;
 		// update bodova
 		Candy._scoreText.setText(Candy._score);
+	},
+	attackMove: function()
+	{
+	this._player.animations.play('attackMove', 10, false);
+	},
+
+	deadMove: function()
+	{
+	this._player.animations.play('deadMove',10,false);
 	},
 	removeCandy: function(candy){
 		// uništavanje elementa
