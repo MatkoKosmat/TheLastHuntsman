@@ -57,7 +57,7 @@ Candy.Game.prototype = {
 		// pauziranje igre
 		this.game.paused = true;
 		// dodavanje pripadnog teksta za pautu
-		var pausedText = this.add.text(100, 250, "Igra je pauzirana\nKlikni za nastavak.", this._fontStyle);
+		var pausedText = this.add.text((Candy.GAME_WIDTH-594)/2, (Candy.GAME_HEIGHT-271)/2, "Igra je pauzirana\nKlikni za nastavak.", this._fontStyle);
 		// event koji gleda dal se desio klik ili tap
 		this.input.onDown.add(function(){
 			// micanje pripadnog teksta za pauzu
@@ -113,7 +113,7 @@ Candy.item = {
 		// kreiranje novog padajućeg elementa
 		var candy = game.add.sprite(dropPos, dropOffset[candyType], 'candy');
 		// add new animation frame
-		candy.animations.add('spin', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 10, true);
+		candy.animations.add('spin', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 20, true);
 		// play the newly created animation
 		candy.animations.play('spin');
 		// enable candy body for physic engine
