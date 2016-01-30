@@ -1,6 +1,6 @@
-var Candy = {};
-Candy.Boot = function(game){};
-Candy.Boot.prototype = {
+var Hunts = {};
+Hunts.Boot = function(game){};
+Hunts.Boot.prototype = {
 	preload: function(){
 		//preload slika
 		this.load.image('preloaderBar', 'img/loading-bar.png');
