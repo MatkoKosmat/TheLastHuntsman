@@ -22,7 +22,9 @@ Hunts.Game.prototype = {
 		this.add.sprite(0, 0, 'background');
 		this.add.sprite(-30, Hunts.GAME_HEIGHT-160, 'floor');
 		this.add.sprite(10, 5, 'score-bg');
-		this.coinsound = this.add.audio('coins');
+		//this.coinsound = this.add.audio('coins');
+		var music = this.add.audio('select',10,true);
+		this.sound.play('select');
 		this._coinanime = this.add.sprite(15, 15, 'coinanime');
 		this._coinanime.animations.add('spin',[0,1,2,3,4,5,6,7,8,9], 10, true);
 		this._coinanime.animations.play('spin');
@@ -178,16 +180,21 @@ Hunts.item = {
 		var coinsType = Math.floor(Math.random()*20);
 		// kreiranje novog padajućeg elementa
 		var coins = game.add.sprite(dropPos, dropOffset[coinsType], 'coins');
+		this.musicCoin = game.add.audio('coins',1,false);
+
+
 		// add new animation frame
 		coins.animations.add('spin', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 20, true);
 		// play the newly created animation
 		coins.animations.play('spin');
+
 		// enable candy body for physic engine
 		game.physics.enable(coins, Phaser.Physics.ARCADE);
 		// enable candy to be clicked/tapped
 		coins.inputEnabled = true;
 		// add event listener to click/tap
-		coins.events.onInputDown.add(this.clickCoins, this);
+			coins.events.onInputDown.add(this.clickCoins, this);
+
 		// be sure that the candy will fire an event when it goes out of the screen
 		coins.checkWorldBounds = true;
 		// reset candy when it goes out of screen
@@ -202,11 +209,14 @@ Hunts.item = {
 
 	clickCoins: function(coins){
 		// uništavanje elementa na klik
+
 		coins.kill();
+this.musicCoin.play();
 		// dodavanje bodova za isto
 		Hunts._score += 1;
 		// update bodova
 		Hunts._scoreText.setText(Hunts._score);
+
 	},
 
 

@@ -11,6 +11,7 @@ Hunts.Preloader.prototype = {
 		this.load.setPreloadSprite(this.preloadBar);
 		this.load.bitmapFont('castefont', 'fonts/BlackCastleMF-14.fnt');
 		this.load.audio('coins', 'img/coins1.wav');
+		this.load.audio('select', 'img/select.wav');
 		// slike
 		this.load.image('background', 'img/background.png');
 		this.load.image('floor', 'img/floor1.png');
