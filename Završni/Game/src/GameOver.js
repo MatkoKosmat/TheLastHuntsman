@@ -1,27 +1,36 @@
-Candy.GameOver = function(game){};
-var GameOver = {
+var gameOver = function(game){};
 
-    preload : function() {
-        // Load the needed image for this game screen.
-        this.load.image('game-over', 'img/gameover.png');
-    },
+gameOver.prototype = {
+  init: function(score){
+  //  var ScoreText = this.add.text((Hunts.GAME_WIDTH-594)/2, (Hunts.GAME_HEIGHT-271)/2, "Score:" + Hunts._score);
+    //this.game.paused = true;
+		//alert("You scored: "+ Hunts._score);
+    //var scoreFinal = Hunts._score;
+	},
 
     create : function() {
+    this._fontStyle = { font: "40px BlackCastleMF", fill: "#E6D769", stroke: "#9d5f37", strokeThickness: 5, align: "center" };
+    var gameOverTitle = this.game.add.sprite((Hunts.GAME_WIDTH-600), (Hunts.GAME_HEIGHT-700),"game-over");
+		var restartButton = this.game.add.button((Hunts.GAME_WIDTH-150), (Hunts.GAME_HEIGHT-390),"button-restart",this.restartGame,this);
+    var homeButton = this.game.add.button((Hunts.GAME_WIDTH-570), (Hunts.GAME_HEIGHT-390),"button-home",this.startGame,this);
+    var ScoreText = this.add.text((Hunts.GAME_WIDTH-180)/2, (Hunts.GAME_HEIGHT-390),"You Score is:\n"+Hunts._score+" Coins.", this._fontStyle);
+    },
 
-        // Create button to start game like in Menu.
-        this.add.button(Candy.GAME_WIDTH-401-10, Candy.GAME_HEIGHT-143-10, 'button-start', this.MainMenu, this, 1, 0, 2);
+    restartGame: function () {
 
-        // Add text with information about the score from last game.
-      //  this.add.text(235, 350, "LAST SCORE", { font: "bold 16px sans-serif", fill: "#46c0f9", align: "center"});
-      //  this.add.text(350, 348, score.toString(), { font: "bold 20px sans-serif", fill: "#fff", align: "center" });
+        // Change the state back to Game.
+        this.state.start('Game');
+        Hunts._score = 0;
 
     },
 
     startGame: function () {
 
         // Change the state back to Game.
-        this.state.start('Game');
+        this.state.start('MainMenu');
+        Hunts._score = 0;
 
     }
+
 
 };

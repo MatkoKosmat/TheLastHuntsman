@@ -21,6 +21,8 @@ Hunts.Preloader.prototype = {
 		this.load.image('score-bg', 'img/score-bg-test.png');
 		//this.load.image('button-pause', 'img/button-pause-new.png');
 		this.load.image('button-pause', 'img/pause-new.png');
+		this.load.image('button-restart', 'img/button-restart.png');
+		this.load.image('button-home', 'img/button-home.png');
 		// spriteovi
 		//this.load.spritesheet('candy', 'img/coins-new.png', 75, 75);
 		this.load.spritesheet('coinanime', 'img/coinanime.png', 50, 50);

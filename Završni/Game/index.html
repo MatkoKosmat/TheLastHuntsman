@@ -25,6 +25,7 @@
 	<script src="src/MainMenu.js"></script>
 	<script src="src/Game.js"></script>
 	<script src="src/GameOver.js"></script>
+
 </head>
 <body>
 	<p class="hiddenText">.</p>
@@ -37,6 +38,8 @@
 	game.state.add('Preloader', Hunts.Preloader);
 	game.state.add('MainMenu', Hunts.MainMenu);
 	game.state.add('Game', Hunts.Game);
+	game.state.add('gameOver',gameOver);
+
 	// start the Boot state
 	game.state.start('Boot');
 })();

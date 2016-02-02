@@ -151,20 +151,20 @@ Hunts.Game.prototype = {
 		// ako je igrač umro
 		if(!Hunts._health) {
 			// show the game over message
-
-			var gameover = this.add.sprite((Hunts.GAME_WIDTH-594)/2, (Hunts.GAME_HEIGHT-271)/2, 'game-over');
-	//		var mainMenu = this.add.button(Candy.GAME_WIDTH-401-10, Candy.GAME_HEIGHT-143-10, 'button-start', mainMenuBack, this, 1, 0, 2);
-			// pause the game
-			this._player.animations.paused = false;
-			this.game.paused = true;
-			this.input.onDown.add(function(){
-				// micanje pripadnog teksta za pauzu
-				gameover.destroy();
-				this.game.paused = false;
-				Hunts._score = 0;
-				// ponovno pokretanje nakon pauze
-				this.state.restart();
-			}, this);
+			this.game.state.start('gameOver');
+	// 		var gameover = this.add.sprite((Hunts.GAME_WIDTH-594)/2, (Hunts.GAME_HEIGHT-271)/2, 'game-over');
+	// //		var mainMenu = this.add.button(Candy.GAME_WIDTH-401-10, Candy.GAME_HEIGHT-143-10, 'button-start', mainMenuBack, this, 1, 0, 2);
+	// 		// pause the game
+	// 		this._player.animations.paused = false;
+	// 		this.game.paused = true;
+	// 		this.input.onDown.add(function(){
+	// 			// micanje pripadnog teksta za pauzu
+	// 			gameover.destroy();
+	// 			this.game.paused = false;
+	// 			Hunts._score = 0;
+	// 			// ponovno pokretanje nakon pauze
+	// 			this.state.restart();
+	// 		}, this);
 		}
 	}
 
