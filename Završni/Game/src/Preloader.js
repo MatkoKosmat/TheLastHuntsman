@@ -20,7 +20,7 @@ Hunts.Preloader.prototype = {
 		this.load.image('game-over', 'img/gameover4.png');
 		this.load.image('score-bg', 'img/score-bg-test.png');
 		this.load.image('life-bg', 'img/score-bg-test.png');
-		
+
 		//this.load.image('button-pause', 'img/button-pause-new.png');
 		this.load.image('button-pause', 'img/pause-new.png');
 		this.load.image('button-restart', 'img/button-restart.png');
@@ -30,7 +30,7 @@ Hunts.Preloader.prototype = {
 		// spriteovi
 		this.load.spritesheet('coinanime', 'img/coinanime.png', 50, 50);
 		this.load.spritesheet('coins', 'img/coinanime.png', 50, 50);
-		this.load.spritesheet('life', 'img/coins1.png', 50, 50);
+		this.load.spritesheet('life', 'img/life-1.png', 30, 27);
 	//	this.load.spritesheet('monster-idle', 'img/monster-idle.png', 103, 131);
 		this.load.spritesheet('player-idle', 'img/player-idle-pack.png', 117.875, 118);
 		this.load.spritesheet('player-idle-attack', 'img/player-idle-attack.png', 150, 132);

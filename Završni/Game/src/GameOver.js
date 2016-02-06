@@ -14,6 +14,9 @@ gameOver.prototype = {
 		var restartButton = this.game.add.button((Hunts.GAME_WIDTH-150), (Hunts.GAME_HEIGHT-390),"button-restart",this.restartGame,this);
     var homeButton = this.game.add.button((Hunts.GAME_WIDTH-570), (Hunts.GAME_HEIGHT-390),"button-home",this.startGame,this);
     var ScoreText = this.add.text((Hunts.GAME_WIDTH-180)/2, (Hunts.GAME_HEIGHT-390),"You Score is:\n"+Hunts._score+" Coins.", this._fontStyle);
+    this._player = this.add.sprite(5, 770, 'player-idle-attack');
+    this._player.animations.add('idle',[0,1,2,3,4,5,6,7,8,9,10,11], 15, false);
+    this._player.animations.play('idle');
     },
 
     restartGame: function () {

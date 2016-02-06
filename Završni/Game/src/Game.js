@@ -2,10 +2,12 @@ Hunts.Game = function(game){
 	// definicija varijabli
 	this._player = null;
 	this._coinsGroup = null;
+	this._lifeGroup = null;
 	this._spawnCoinsTimer = 0;
 	this._lifeCoinsTimer = 0;
 	this._fontStyle = null;
 	this._coinanime = null;
+	this._lifeanime = null;
 	// definicija varijabli koje se koriste u item
 	Hunts._scoreText = null;
 	Hunts._lifeText = null;
@@ -31,6 +33,10 @@ Hunts.Game.prototype = {
 		this._coinanime = this.add.sprite(15, 15, 'coinanime');
 		this._coinanime.animations.add('spin',[0,1,2,3,4,5,6,7,8,9], 10, true);
 		this._coinanime.animations.play('spin');
+
+		this._lifeanime = this.add.sprite(15, 90, 'life');
+		this._lifeanime.animations.add('idle',[0,1,2,3,4,5,6,7], 10, true);
+		this._lifeanime.animations.play('idle');
 		// dodavanje pausa gumba
 		this.add.button(Hunts.GAME_WIDTH-96-10, 5, 'button-pause', this.managePause, this);
 	// 	var popup = this.add.sprite(200, 200, 'player-idle-die');
@@ -81,10 +87,12 @@ Hunts.Game.prototype = {
 		Hunts._scoreText = this.add.text(120, 20, "0", this._fontStyle);
 
 		// postavljanje zivota igrača
-		Hunts._health = 10;
+		Hunts._health = 1;
 		Hunts._lifeText = this.add.text(120, 90, Hunts._health, this._fontStyle);
+
 		// kreiranje grupe
 		this._coinsGroup = this.add.group();
+		this._lifeGroup = this.add.group();
 		// spustanje coinsa
 		Hunts.item.spawnCoins(this);
 		this._lifeCoinsTimer = this.rnd.integerInRange(5, 10);
@@ -145,7 +153,7 @@ Hunts.Game.prototype = {
 			// i ispusti novi coin
 			Hunts.item.spawnCoins(this);
 		}
-//life
+		//life
 		if(this._lifeCoinsTimer > 5 && Hunts._score > 10) {
 			// resetiraj ga
 			this._lifeCoinsTimer = 0;
@@ -181,11 +189,11 @@ Hunts.Game.prototype = {
 Hunts.item = {
 	spawnLife: function(game){
 		var dropPos = Math.floor(Math.random()*Hunts.GAME_WIDTH);
-		var dropOffset = [0, 1, 2, 3, 4, 5];
+		var dropOffset = [0, 1, 2, 3, 4, 5, 6, 7];
 		var coinsType = Math.floor(Math.random()*20);
 		var coins = game.add.sprite(dropPos, dropOffset[coinsType], 'life');
 		this.musicCoin = game.add.audio('life',1,false);
-		coins.animations.add('spin', [0, 1, 2, 3, 4, 5], 20, true);
+		coins.animations.add('spin', [0, 1, 2, 3, 4, 5, 6, 7], 20, true);
 		coins.animations.play('spin');
 		game.physics.enable(coins, Phaser.Physics.ARCADE);
 		coins.inputEnabled = true;
@@ -236,7 +244,7 @@ Hunts.item = {
 		// uništavanje elementa na klik
 
 		coins.kill();
-this.musicCoin.play();
+		this.musicCoin.play();
 		// dodavanje bodova za isto
 		Hunts._score += 1;
 		// update bodova
@@ -247,11 +255,15 @@ this.musicCoin.play();
 		// uništavanje elementa na klik
 
 		coins.kill();
-this.musicCoin.play();
+		this.musicCoin.play();
 		// dodavanje bodova za isto
-		Hunts._health += 10;
+		Hunts._health += 1;
 		// update bodova
 		Hunts._lifeText.setText(Hunts._health);
+		//Hunts._lifeText.create(this._lifeanime);
+		// this._lifeanime = this.add.sprite(45, 90, 'life');
+		// this._lifeanime.animations.add('idle',[0,1,2,3,4,5,6,7], 10, true);
+		// this._lifeanime.animations.play('idle');
 
 	},
 
@@ -263,8 +275,9 @@ this.musicCoin.play();
 	removeCoins: function(coins){
 		// uništavanje elementa
 		coins.kill();
+		this.musicCoin.play();
 		// smanjene života u sličaju da element padne
-		Hunts._health -= 10;
+		Hunts._health -= 1;
 		Hunts._lifeText.setText(Hunts._health);
 	}
 };

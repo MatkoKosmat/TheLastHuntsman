@@ -8,6 +8,7 @@ Hunts.MainMenu.prototype = {
 		// button star
 		this.add.button(Hunts.GAME_WIDTH-401, Hunts.GAME_HEIGHT-143, 'button-start', this.startGame, this, 1, 0, 2);
 		this.add.button(Hunts.GAME_WIDTH-600, Hunts.GAME_HEIGHT-143, 'button-mute', this.muteGame, this);
+	//	var pausedText = this.add.text((Hunts.GAME_WIDTH-594)/2, (Hunts.GAME_HEIGHT-271)/2,Hunts._score);
 	},
 	muteGame: function(){
 		if (!this.sound.mute) {
@@ -20,6 +21,10 @@ Hunts.MainMenu.prototype = {
 
     }
 	},
+	bestScore: function(){
+
+	},
+
 	startGame: function() {
 		// pokretanje skripte game
 		this.state.start('Game');
