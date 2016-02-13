@@ -2,7 +2,7 @@ var Hunts = {};
 Hunts.Boot = function(game){};
 Hunts.Boot.prototype = {
 	preload: function(){
-		//preload slika
+		//dodavanje slike za loading bar
 		this.load.image('preloaderBar', 'img/loading-bar.png');
 	},
 	create: function(){

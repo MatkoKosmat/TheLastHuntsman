@@ -12,6 +12,8 @@ Hunts.Game = function(game){
 	Hunts._scoreText = null;
 	Hunts._lifeText = null;
 	Hunts._score = 0;
+	Hunts._life = null;
+	Hunts._lifes = null;
 	Hunts._health = 0;
 	Hunts._coinsound = null;
 };
@@ -26,51 +28,25 @@ Hunts.Game.prototype = {
 		this.add.sprite(0, 0, 'background');
 		this.add.sprite(-30, Hunts.GAME_HEIGHT-160, 'floor');
 		this.add.sprite(10, 5, 'score-bg');
-		this.add.sprite(10, 80, 'life-bg');
+		//this.add.sprite(10, 80, 'life-bg');
 		//this.coinsound = this.add.audio('coins');
 		var music = this.add.audio('select',10,true);
+		var dropcoin = this.add.audio('dropcoin',10,true);
 		this.sound.play('select');
-		this._coinanime = this.add.sprite(15, 15, 'coinanime');
+		this._coinanime = this.add.sprite(30, 60, 'coinanime-small');
 		this._coinanime.animations.add('spin',[0,1,2,3,4,5,6,7,8,9], 10, true);
 		this._coinanime.animations.play('spin');
 
-		this._lifeanime = this.add.sprite(15, 90, 'life');
-		this._lifeanime.animations.add('idle',[0,1,2,3,4,5,6,7], 10, true);
-		this._lifeanime.animations.play('idle');
+
+
 		// dodavanje pausa gumba
-		this.add.button(Hunts.GAME_WIDTH-96-10, 5, 'button-pause', this.managePause, this);
-	// 	var popup = this.add.sprite(200, 200, 'player-idle-die');
-	 //
-  //   popup.alpha = 0.8;
-  //   popup.anchor.set(0.5);
-  //   popup.inputEnabled = true;
-  //   popup.input.enableDrag();
-	 //
-	// 	//  Position the close button to the top-right of the popup sprite (minus 8px for spacing)
-	//  var pw = (popup.width / 2) - 30;
-	//  var ph = (popup.height / 2) - 8;
-	 //
-	//  //  And click the close button to close it down again
-	//  var closeButton = this.add.sprite(pw, -ph, 'start-button-new');
-	//  //  Create a tween that will pop-open the window, but only if it's not already tweening or open
-	//  var tween = this.add.tween(popup.scale).to( { x: 1, y: 1 }, 1000, Phaser.Easing.Elastic.Out, true);
-	//  closeButton.inputEnabled = true;
-	//  closeButton.input.priorityID = 1;
-	//  closeButton.input.useHandCursor = true;
-	//  closeButton.events.onInputDown.add(this.closeWindow, this);
-	 //
-	//  //  Add the "close button" to the popup window image
-	//  popup.addChild(closeButton);
-	 //
-	//  //  Hide it awaiting a click
-	//  popup.scale.set(0.1);
+		var pauseButton =	this.add.button(Hunts.GAME_WIDTH-80, 5, 'button-pause', this.managePause, this, 1, 0);
+
 		// izrada igrača
 		this._player = this.add.sprite(5, 785, 'player-idle');
 
 		// dodavanje animacije na igrača
 		this._player.animations.add('idle', [0,1,2,3,4,5,6,7], 10, true);
-	//	this._player.animations.add('attackMove',[0,1,2,3,4,5,6,7], 10, true);
-	//	this._player.animations.add('deadMove',[0,1,2,3,4,5,6,7], 10, true);
 		this.game.input.onDown.add(function(){
 			this._player.destroy();
 			this._player = this.add.sprite(5, 770, 'player-idle-attack');
@@ -80,15 +56,23 @@ Hunts.Game.prototype = {
 		// animacija igrača
 		this._player.animations.play('idle');
 		// postavljanje fonta
-		this._fontStyle = { font: "40px BlackCastleMF", fill: "#E6D769", stroke: "#9d5f37", strokeThickness: 5, align: "center" };
+		// this._fontStyle = { font: "40px font", fill: "#E6D769", stroke: "#9d5f37", strokeThickness: 5, align: "center" };
 		// inicijalizacija timera
 		this._spawnCoinsTimer = 0;
 		// inicijalizacija scorea
-		Hunts._scoreText = this.add.text(120, 20, "0", this._fontStyle);
+		Hunts._scoreText = this.add.bitmapText(90, 58,'casltefont', "0",34);
 
 		// postavljanje zivota igrača
-		Hunts._health = 1;
-		Hunts._lifeText = this.add.text(120, 90, Hunts._health, this._fontStyle);
+		Hunts._health = 3;
+		Hunts._lifes =  this.add.group();
+		for (var i = 0, j = 30; i < Hunts._health; i++, j=j+32) {
+			// this._lifeanime = this.add.sprite(j, 105, 'life');
+			// this._lifeanime.animations.add('idle',[0,1,2,3,4,5,6,7], 8, true);
+			// this._lifeanime.animations.play('idle');
+			Hunts._life = Hunts._lifes.create(j,105,'life');
+
+		}
+		// Hunts._lifeText = this.add.text(120, 90, Hunts._health, this._fontStyle);
 
 		// kreiranje grupe
 		this._coinsGroup = this.add.group();
@@ -99,40 +83,24 @@ Hunts.Game.prototype = {
 		console.log(this._lifeCoinsTimer);
 
 	},
-// 	openWindow: function() {
-// 		//  Create a tween that will pop-open the window, but only if it's not already tweening or open
-// 		tween = this.add.tween(popup.scale).to( { x: 1, y: 1 }, 1000, Phaser.Easing.Elastic.Out, true);
-//     if ((tween !== null && tween.isRunning) || popup.scale.x === 1)
-//     {
-//         return;
-//     }
-//
-//
-//
-// },
-// closeWindow: function () {
-//
-//     if (tween && tween.isRunning || popup.scale.x === 0.1)
-//     {
-//         return;
-//     }
-//
-//     //  Create a tween that will close the window, but only if it's not already tweening or closed
-//     tween = game.add.tween(popup.scale).to( { x: 0.1, y: 0.1 }, 500, Phaser.Easing.Elastic.In, true);
-//
-// },
+
 	managePause: function(){
 		// pauziranje igre
 		this.game.paused = true;
 		// dodavanje pripadnog teksta za pautu
-		var pausedText = this.add.text((Hunts.GAME_WIDTH-594)/2, (Hunts.GAME_HEIGHT-271)/2, "Igra je pauzirana\nKlikni za nastavak.", this._fontStyle);
+		var pausedBack = this.add.sprite((Hunts.GAME_WIDTH)/2, (Hunts.GAME_HEIGHT)/2, 'pause-bg');
+		pausedBack.anchor.setTo(0.5, 0.5);
+		var pausedText = this.add.bitmapText((Hunts.GAME_WIDTH)/2, (Hunts.GAME_HEIGHT)/2,'casltefont', "Pause\nClick to continue",42);
+		pausedText.anchor.setTo(0.5, 0.5);
 		// event koji gleda dal se desio klik ili tap
-		this.input.onDown.add(function(){
-			// micanje pripadnog teksta za pauzu
-			pausedText.destroy();
-			// ponovno pokretanje nakon pauze
+		 this.input.onDown.add(function(){
+		 	// micanje pripadnog teksta za pauzu
+		 	pausedText.destroy();
+			pausedBack.destroy();
+		 	// ponovno pokretanje nakon pauze
 			this.game.paused = false;
-		}, this);
+		 }, this);
+
 	},
 	// restartGame: function(){
 	// 	this.input.onDown.add(function(){
@@ -169,18 +137,6 @@ Hunts.Game.prototype = {
 		if(!Hunts._health) {
 			// prikaz pripadajuće poruke
 			this.game.state.start('gameOver');
-	// 		var gameover = this.add.sprite((Hunts.GAME_WIDTH-594)/2, (Hunts.GAME_HEIGHT-271)/2, 'game-over');
-	// 		// pause the game
-	// 		this._player.animations.paused = false;
-	// 		this.game.paused = true;
-	// 		this.input.onDown.add(function(){
-	// 			// micanje pripadnog teksta za pauzu
-	// 			gameover.destroy();
-	// 			this.game.paused = false;
-	// 			Hunts._score = 0;
-	// 			// ponovno pokretanje nakon pauze
-	// 			this.state.restart();
-	// 		}, this);
 		}
 	}
 
@@ -192,7 +148,7 @@ Hunts.item = {
 		var dropOffset = [0, 1, 2, 3, 4, 5, 6, 7];
 		var coinsType = Math.floor(Math.random()*20);
 		var coins = game.add.sprite(dropPos, dropOffset[coinsType], 'life');
-		this.musicCoin = game.add.audio('life',1,false);
+		this.musicLife = game.add.audio('bonus',1,false);
 		coins.animations.add('spin', [0, 1, 2, 3, 4, 5, 6, 7], 20, true);
 		coins.animations.play('spin');
 		game.physics.enable(coins, Phaser.Physics.ARCADE);
@@ -214,23 +170,20 @@ Hunts.item = {
 		// kreiranje novog padajućeg elementa
 		var coins = game.add.sprite(dropPos, dropOffset[coinsType], 'coins');
 		this.musicCoin = game.add.audio('coins',1,false);
-
-
+		this.musicCoinDead = game.add.audio('dropcoin',1,false);
 		// dodavanje animacije
 		coins.animations.add('spin', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 20, true);
 		// pokretanje definirane animacije
 		coins.animations.play('spin');
-
 		// omogućavanje physics enginea
 		game.physics.enable(coins, Phaser.Physics.ARCADE);
 		// omogućavanje da su coinsi klikabilni
 		coins.inputEnabled = true;
 		// dodavanje eventa
-			coins.events.onInputDown.add(this.clickCoins, this);
-
+		coins.events.onInputDown.add(this.clickCoins, this);
 		// be sure that the candy will fire an event when it goes out of the screen
 		coins.checkWorldBounds = true;
-		// reset candy when it goes out of screen
+		// reset kada izađe izvan ekrana
 		coins.events.onOutOfBounds.add(this.removeCoins, this);
 		// dodavanje anchora za rotaciju i poziciju
 		coins.anchor.setTo(0.5, 0.5);
@@ -242,7 +195,6 @@ Hunts.item = {
 
 	clickCoins: function(coins){
 		// uništavanje elementa na klik
-
 		coins.kill();
 		this.musicCoin.play();
 		// dodavanje bodova za isto
@@ -255,15 +207,11 @@ Hunts.item = {
 		// uništavanje elementa na klik
 
 		coins.kill();
-		this.musicCoin.play();
+		this.musicLife.play();
 		// dodavanje bodova za isto
 		Hunts._health += 1;
-		// update bodova
-		Hunts._lifeText.setText(Hunts._health);
-		//Hunts._lifeText.create(this._lifeanime);
-		// this._lifeanime = this.add.sprite(45, 90, 'life');
-		// this._lifeanime.animations.add('idle',[0,1,2,3,4,5,6,7], 10, true);
-		// this._lifeanime.animations.play('idle');
+		Hunts._life = Hunts._lifes.getChildAt();
+
 
 	},
 
@@ -272,12 +220,20 @@ Hunts.item = {
 	{
 	this._player.animations.play('deadMove',10,false);
 	},
-	removeCoins: function(coins){
+	removeCoins: function(coins,life){
 		// uništavanje elementa
 		coins.kill();
-		this.musicCoin.play();
+		this.musicCoinDead.play();
+
+		//this.musicCoin.play();
 		// smanjene života u sličaju da element padne
 		Hunts._health -= 1;
-		Hunts._lifeText.setText(Hunts._health);
+		Hunts._life = Hunts._lifes.getFirstAlive();
+
+    if (Hunts._life)
+    {
+        Hunts._life.destroy();
+    }
+		// Hunts._lifeText.setText(Hunts._health);
 	}
 };

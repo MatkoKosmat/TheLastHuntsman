@@ -4,27 +4,35 @@
 	<meta charset="utf-8" />
 	<title>The Last Huntsman</title>
 	<style>
+
 		body{
 			margin: 0;
 			background: #aeaeae;
 		}
 		@font-face {
-		    font-family:"BlackCastleMF";
-		    src: url("fonts/BlackCastleMF.ttf");
+		    font-family:"casltefont";
+		    src: url("fonts/custom-castle-font.fnt");
 		}
 		.hiddenText{
-			font-family:'BlackCastleMF';
+			font-family:'casltefont';
 			visibility: hidden;
 			display: none;
     font-size: 26px;
 		}
 	</style>
+	<script>
+	function openDeviceBrowser(externalLinkToOpen) {
+	window.open(externalLinkToOpen, '_system', 'location=no');
+}
+	</script>
 	<script src="src/phaser.min.js"></script>
 	<script src="src/Boot.js"></script>
 	<script src="src/Preloader.js"></script>
 	<script src="src/MainMenu.js"></script>
 	<script src="src/Game.js"></script>
 	<script src="src/GameOver.js"></script>
+	<script src="src/HowTo.js"></script>
+	<script src="src/About.js"></script>
 
 </head>
 <body>
@@ -39,6 +47,8 @@
 	game.state.add('MainMenu', Hunts.MainMenu);
 	game.state.add('Game', Hunts.Game);
 	game.state.add('gameOver',gameOver);
+	game.state.add('howTo',howTo);
+	game.state.add('about',about);
 
 	// start the Boot state
 	game.state.start('Boot');
