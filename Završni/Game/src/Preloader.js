@@ -6,7 +6,7 @@ Hunts.Preloader = function(game){
 Hunts.Preloader.prototype = {
 	preload: function(){
 		//postavljenje i učitavanje slika
-		this.stage.backgroundColor = '#aeaeae';
+		this.stage.backgroundColor = '#9d5e37';
 		// loader bar
 		this.preloadBar = this.add.sprite((Hunts.GAME_WIDTH-311)/2, (Hunts.GAME_HEIGHT-27)/2, 'preloaderBar');
 		this.load.setPreloadSprite(this.preloadBar);
@@ -20,8 +20,10 @@ Hunts.Preloader.prototype = {
 		this.load.audio('bonus', 'img/bonus.wav');
 		this.load.audio('dropcoin', 'img/dropcoin.wav');
 		// slike
-		// this.load.image('background', 'img/background.jpg');
-		this.load.image('background', 'img/background-1.png');
+	 	this.load.image('background-default', 'img/background-1.png');
+		this.load.image('background', 'img/Trans_backup.jpg');
+
+		this.load.image('floor', 'img/floor-new.png');
 		this.load.image('floor', 'img/floor1.png');
 		this.load.image('title', 'img/final-title.png');
 		// this.load.image('game-over', 'img/gameoverscreen.png');

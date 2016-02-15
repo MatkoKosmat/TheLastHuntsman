@@ -10,6 +10,7 @@ gameOver.prototype = {
 
     create: function() {
       // this._fontStyle = { font: "40px BlackCastleMF", fill: "#E6D769", stroke: "#9d5f37", strokeThickness: 5, align: "center" };
+      this.add.sprite(0, 0, 'background-default');
       var gameOverTitle = this.game.add.sprite((Hunts.GAME_WIDTH - 640), (Hunts.GAME_HEIGHT - 700), "game-over");
       var restartButton = this.game.add.button((Hunts.GAME_WIDTH - 150), (Hunts.GAME_HEIGHT - 435), "button-restart", this.restartGame, this, 1, 0);
       var homeButton = this.game.add.button((Hunts.GAME_WIDTH - 570), (Hunts.GAME_HEIGHT - 435), "button-home", this.startGame, this, 1, 0);

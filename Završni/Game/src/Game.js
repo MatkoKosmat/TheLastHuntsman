@@ -26,7 +26,7 @@ Hunts.Game.prototype = {
 		this.physics.arcade.gravity.y = 200;
 		// prikaz slika backgrounda, score i poda
 		this.add.sprite(0, 0, 'background');
-		this.add.sprite(-30, Hunts.GAME_HEIGHT-160, 'floor');
+		this.add.sprite(0, Hunts.GAME_HEIGHT-85, 'floor');
 		this.add.sprite(10, 5, 'score-bg');
 		//this.add.sprite(10, 80, 'life-bg');
 		//this.coinsound = this.add.audio('coins');
@@ -102,14 +102,7 @@ Hunts.Game.prototype = {
 		 }, this);
 
 	},
-	// restartGame: function(){
-	// 	this.input.onDown.add(function(){
-	// 		// micanje pripadnog teksta za pauzu
-	// 		pausedText.destroy();
-	// 		// ponovno pokretanje nakon pauze
-	// 		this.game.paused = false;
-	// 	}, this);
-	// },
+
 	update: function(){
 		// update timera za svaki frame
 		this._spawnCoinsTimer += this.time.elapsed;
@@ -127,6 +120,18 @@ Hunts.Game.prototype = {
 			this._lifeCoinsTimer = 0;
 			// i ispusti novi coin
 			Hunts.item.spawnLife(this);
+		}
+		if(Hunts._score > 15) {
+			this.physics.arcade.gravity.y = 300;
+		}
+		if(Hunts._score > 30) {
+			this.physics.arcade.gravity.y = 400;
+		}
+		if(Hunts._score > 50) {
+			this.physics.arcade.gravity.y = 500;
+		}
+		if(Hunts._score > 75) {
+			this.physics.arcade.gravity.y = 650;
 		}
 		// loop za sve coin elemente
 		this._coinsGroup.forEach(function(coins){
@@ -205,14 +210,11 @@ Hunts.item = {
 	},
 	clickLife: function(coins){
 		// uništavanje elementa na klik
-
 		coins.kill();
 		this.musicLife.play();
 		// dodavanje bodova za isto
 		Hunts._health += 1;
 		Hunts._life = Hunts._lifes.getChildAt();
-
-
 	},
 
 
